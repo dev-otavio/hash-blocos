@@ -29,6 +29,14 @@ Caso `elementos` seja `undefined`, a array irá conter (original.length - inicio
 export function copiarArray(original: Array<number>, inicio: number, elementos?: number): Array<number>;
 export function copiarArray(original: Array<number>, inicio: number, elementos: number): Array<number>;
 export function copiarArray(original: Array<number>, inicio: number, elementos: any): Array<number> {
+	if (inicio < 0) {
+		throw new Error(`Argumento inválido: ${inicio}`);
+	}
+
+	if (elementos < 0) {
+		throw new Error(`Argumento inválido: ${elementos}`);
+	}
+
 	if (elementos === undefined) {
 		const copia: Array<number> = [];
 		const limite = original.length;

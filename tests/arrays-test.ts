@@ -63,6 +63,35 @@ test(testeSolicitandoElementosEmExcesso, function() {
 	expect(e instanceof Error).toBe(true);
 });
 
+test("copiarArray(xs, i, e) lança exceção para `i` ou `e` negativos.", function () {
+	const original = [0, 0, -1, 0, -1];
+	const inicio = 1;
+	const elementos = 1;
+
+	let e1: Error;
+
+	try {
+		copiarArray(original, -inicio, elementos);
+	} catch (exception) {
+		e1 = exception;
+	}
+
+	expect(e1).not.toBeUndefined();
+	expect(e1 instanceof Error).toBe(true);
+
+	let e2: Error;
+
+	try {
+		copiarArray(original, inicio, -elementos);
+	} catch (exception) {
+		e2 = exception;
+	}
+
+	expect(e2).not.toBeUndefined();
+	expect(e2 instanceof Error).toBe(true);
+
+});
+
 const testeCriarArray2D = `criarArray2D(l, c) deve criar um array bidimensional de \`l\` linhas e
 \`c\` colunas representando uma matriz de \`l\` * \`c\` elementos com valor inicial 0.`;
 test(testeCriarArray2D, function() {
