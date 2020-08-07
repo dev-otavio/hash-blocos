@@ -1,7 +1,7 @@
 import { criarArray } from "../src/arrays";
 
 
-test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function () {
+test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function (){
 	const numeroElementos = 5;
 	const a = criarArray(numeroElementos);
 	expect(a.length).toBe(numeroElementos);
