@@ -1,0 +1,22 @@
+{
+	"name": "hash-blocos",
+	"version": "0.1.0",
+	"description": "Protótipo de quebra-cabeça de blocos para posterior implementação na linguagem jack do curso nand2tetris.",
+	"main": "babel.config.js",
+	"directories": {
+		"test": "tests"
+	},
+	"scripts": {
+		"clean": "rm -rf dist/**"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dev-otavio/hash-blocos.git"
+	},
+	"keywords": [
+		"typescript",
+		"javascript"
+	],
+	"author": "dev-otavio",
+	"license": "Unlicense"
+}
