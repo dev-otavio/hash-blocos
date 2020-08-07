@@ -98,3 +98,60 @@ export function criarArray2D(linhas: number, colunas: number): Array<Array<numbe
 
 	return array;
 }
+
+/**
+*@param {Array<Array<number>>} original - Um array bidimensional do qual os elementos serão copiados.
+*@param {{linha: number,
+*         coluna: number,
+*         linhas: number,
+*         colunas: number }} regiao - Objeto contendo número de `linhas` e `colunas` a serem copiados de `original` a partir de `original[linha][coluna]`.
+*@return Um array bidimensional com `linhas` linhas e `colunas` colunas copiados de `original` a partir de `original[linha][coluna]`.
+*/
+export function copiarArray2D(
+	original: Array<Array<number>>,
+	regiao: { linhas:  number,
+			  colunas: number,
+			  linha:   number,
+			  coluna:  number }): Array<Array<number>> {
+
+	const { linha, coluna, linhas, colunas } = regiao;
+
+	if (linha < 0) { throw new Error(`Valor inválido para linha: ${linha}`); }
+	if (coluna < 0) { throw new Error(`Valor inválido para coluna: ${coluna}`); }
+	if (linhas < 0) { throw new Error(`Valor inválido para linhas: ${linhas}`); }
+	if (colunas < 0) { throw new Error(`Valor inválido para coluna: ${colunas}`); }
+
+	let comprimento = original[0].length;
+	let c = 1;
+
+	while (c < original.length) {
+		if (original[c].length !== comprimento) {
+			throw new Error(`${original} não representa uma matriz pois número de colunas da linha ${c} é diferente das linhas anteriores que têm ${comprimento} colunas.`);
+		}
+		c += 1;
+	}
+
+	if (linha + linhas > original.length) {
+		throw new Error(`Valor inválido ${linhas}, apenas ${original.length - linha} linhas disponíveis para seleção a partir da linha ${linha}`);
+	}
+
+	if (coluna + colunas > original[linha].length) {
+		throw new Error(`Valor inválido ${colunas}, apenas ${original[linha].length - coluna} colunas disponíveis para seleção a partir da coluna ${coluna}`);
+	}
+
+	const matriz = [];
+	let i = 0;
+	while (i < linhas) {
+		matriz.push([]);
+
+		let j = 0;
+		while (j < colunas) {
+			matriz[i].push(original[i + linha][j + coluna]);
+			j += 1;
+		}
+
+		i += 1;
+	}
+
+	return matriz;
+}

@@ -43,7 +43,7 @@ test(testeCopiaComInicioElementos, function () {
 	const elementos = 3;
 	const copia = copiarArray(original, inicio, elementos);
 	expect(copiarArray.length).toBe(elementos);
-	expect(copia).toEqual(original.slice(inicio));
+	expect(copia).toStrictEqual(original.slice(inicio));
 });
 
 const testeSolicitandoElementosEmExcesso = "copiarArray(xs, inicio, elementos) lança exceção se `elementos` > `original`.length - `inicio`.";
