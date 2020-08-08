@@ -1,4 +1,4 @@
-import { criarArray2D, copiarArray2D } from "../src/arrays";
+import { criarArray2D, copiarArray2D, sobreporArray2D } from "../src/arrays";
 
 
 const testeCriarArray2D = "criarArray2D(l, c) deve criar um array bidimensional de `l` linhas e `c` colunas representando uma matriz de `l` * `c` elementos com valor inicial 0.";
@@ -171,6 +171,81 @@ test("copiarArray2D lança exceção se `original` possui número desigual de co
 						coluna:  2,
 						linhas:  1,
 						colunas: 3 });
+	} catch (exception) {
+		e = exception;
+	}
+
+	expect(e).not.toBeUndefined();
+	expect(e instanceof Error).toBe(true);
+
+});
+
+const testeSobrepor
+	= "sobreporArray2D(a1, a2, { linha: l, coluna: c }) deve retornar um array `r` com elementos de a1 substituídos pelos elementos da `a2` a partir da posição `r[l][c]`.";
+test(testeSobrepor, function () {
+	const a1 = [[ 0,  0, -1,  0, -1],
+				[-1, -1, -1, -1, -1],
+				[-1, -1, -1, -1, -1],
+			    [ 0,  0,  0,  0,  0]];
+
+	const a2 = [[ 0, -1],
+			    [ 0,  0]];
+
+	const posicaoInicial = { linha: 1, coluna: 1 };
+	const esperado = [[ 0,  0, -1,  0, -1],
+					  [-1,  0, -1, -1, -1],
+					  [-1,  0,  0, -1, -1],
+					  [ 0,  0,  0,  0,  0]]
+
+	const resultado = sobreporArray2D(a1, a2, posicaoInicial);
+	expect(resultado).toStrictEqual(esperado);
+});
+
+const testeSobreporLancaExcecaoLinhasExcedentes
+	= "sobreporArray2D lança exceção se quantidade de linhas de `a2` excede espaço disponível considerando a linha da `posicaoInicial`.";
+test(testeSobreporLancaExcecaoLinhasExcedentes, function () {
+
+	const a1 = [[ 0,  0, -1,  0, -1],
+				[-1, -1, -1, -1, -1],
+				[-1, -1, -1, -1, -1],
+			    [ 0,  0,  0,  0,  0]];
+
+	const a2 = [[ 0, -1],
+			    [ 0,  0]];
+
+	const posicaoInicial = { linha: 3, coluna: 1 };
+
+	let e: Error;
+
+	try {
+		sobreporArray2D(a1, a2, posicaoInicial);
+	} catch (exception) {
+		e = exception;
+	}
+
+	expect(e).not.toBeUndefined();
+	expect(e instanceof Error).toBe(true);
+
+});
+
+const testeSobreporLancaExcecaoColunasExcedentes
+	= "sobreporArray2D lança exceção se quantidade de colunas de `a2` excede espaço disponível considerando a linha e coluna da `posicaoInicial`.";
+test(testeSobreporLancaExcecaoColunasExcedentes, function () {
+
+	const a1 = [[ 0,  0, -1,  0, -1],
+				[-1, -1, -1, -1, -1],
+				[-1, -1, -1, -1, -1],
+			    [ 0,  0,  0,  0,  0]];
+
+	const a2 = [[ 0, -1],
+			    [ 0,  0]];
+
+	const posicaoInicial = { linha: 0, coluna: 4 };
+
+	let e: Error;
+
+	try {
+		sobreporArray2D(a1, a2, posicaoInicial);
 	} catch (exception) {
 		e = exception;
 	}

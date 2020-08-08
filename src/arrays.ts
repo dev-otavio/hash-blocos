@@ -65,6 +65,39 @@ export function copiarArray(original: Array<number>, inicio: number, elementos: 
 }
 
 /**
+*@param {Array<number>} a1 - Array base para cópia.
+*@param {Array<number>} a2 - Array cujos elementos irão substituir os elementos de `a1` 
+*a partir da `posicaoInicial` na array retornada.
+*@return Um array com mesmo tamanho de `a1` e com elementos de `a1` mas com elementos de
+* `a2` a partir da `posicaoinicial`.
+*/
+export function sobreporArray(
+	a1: Array<number>,
+	a2: Array<number>,
+	posicaoInicial: number): Array<number> {
+
+	if (a2.length > a1.length - posicaoInicial) {
+		throw new Error(`Argumento inválido: ${a2}. Espaço disponível apenas para ${a1.length - posicaoInicial} elemento(s) a partir da posição ${posicaoInicial}`);
+	}
+
+	const copia = [];
+	let i = 0;
+	let j = 0;
+	while (i < a1.length) {
+		if (i >= posicaoInicial && j < a2.length) {
+			copia[i] = a2[j];
+			j += 1;
+		} else {
+			copia[i] = a1[i];
+		}
+		i += 1;
+	}
+
+	return copia;
+
+}
+
+/**
 *@param {number} linhas - Número de linhas desejadas para o array.
 *@param {number} colunas - Número de colunas desejadas para o array.
 *@return {Array<Array<number>>} Um array bidimensional de `linhas` * `colunas` elementos inicializados com valor 0.
@@ -154,4 +187,54 @@ export function copiarArray2D(
 	}
 
 	return matriz;
+}
+
+/**
+*@param {Array<number>} a1 - Array bidimensional base para cópia.
+*@param {Array<number>} a2 - Array bidimensional cujos elementos irão substituir os elementos de `a1` a partir da `posicaoInicial` na array retornada.
+*@return Um array bidimensional com mesmo tamanho de `a1` e com elementos de `a1` mas com elementos de
+* `a2` a partir da `posicaoinicial`.
+*/
+export function sobreporArray2D(
+	a1: Array<Array<number>>,
+	a2: Array<Array<number>>,
+	posicaoInicial: { linha: number, coluna: number }): Array<number> {
+
+	const { linha, coluna } = posicaoInicial;
+
+	if (a1.length - linha < a2.length) {
+		throw new Error(`Argumento inválido ${a2}, espaço disponível para ${a1.length - linha} linha(s) a partir de linha ${linha}.`);
+	}
+
+	if (a1[0].length - coluna < a2[0].length) {
+		throw new Error(`Argumento inválido ${a2}, espaço disponível para ${a1[0].length - coluna} coluna(s) a partir de linha ${linha} e coluna ${coluna}.`);
+	}
+
+	const copia = [];
+
+	let i = 0;
+	while (i < a1.length) {
+		copia.push([]);
+
+		let j = 0;
+		while (j < a1[i].length) {
+			copia[i][j] = a1[i][j];
+			j += 1;
+		}
+
+		i += 1;
+	}
+
+	i = 0;
+	while (i < a2.length) {
+		let j = 0;
+		while (j < a2[i].length) {
+			copia[i + linha][j + coluna] = a2[i][j];
+			j += 1;
+		}
+		i += 1;
+	}
+
+	return copia;
+
 }

@@ -1,4 +1,4 @@
-import { criarArray, copiarArray } from "../src/arrays";
+import { criarArray, copiarArray, sobreporArray } from "../src/arrays";
 
 
 test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function (){
@@ -90,4 +90,33 @@ test("copiarArray(xs, i, e) lança exceção para `i` ou `e` negativos.", functi
 	expect(e2).not.toBeUndefined();
 	expect(e2 instanceof Error).toBe(true);
 
+});
+
+const testeSobrepor
+	= "sobreporArray(a1, a2, posicaoInicial) deve retornar um array `r` com elementos de a1 substituídos pelos elementos da `a2` a partir da posição `r[posicaoInicial]`.";
+test(testeSobrepor, function () {
+	const a1 = [ 0,  0, -1,  0, -1];
+	const a2 = [ 0, -1];
+	const posicaoInicial = 2;
+	const esperado = [ 0,  0, ...a2, -1];
+	const resultado = sobreporArray(a1, a2, posicaoInicial);
+	expect(resultado).toStrictEqual(esperado);
+});
+
+const testeSobreporLancandoExcecao
+	= "sobreporArray lança exceção se tamanho `a2` é maior que o tamanho de `a1` - `posicaoInicial`."
+test(testeSobreporLancandoExcecao, function () {
+	const a1 = [-1, -1];
+	const a2 = [ 0,  0, -1,  0, -1];
+	const posicaoInicial = 1;
+
+	let e: Error;
+	try {
+		console.log(sobreporArray(a1, a2, posicaoInicial));
+	} catch (exception) {
+		e = exception;
+	}
+
+	expect(e).not.toBeUndefined();
+	expect(e instanceof Error).toBe(true);
 });
