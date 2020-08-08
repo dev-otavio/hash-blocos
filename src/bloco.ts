@@ -1,11 +1,11 @@
-abstract class Bloco {
+export abstract class Bloco {
 	abstract representacoes: Array<Array<Array<number>>>;
 
 	get representacao(): Array<Array<number>> {
 		return this.representacoes[0];
 	}
 
-	proximaRepresentacao(): Array<Array<number>> {
+	rotacionar() {
 		const cabeca = this.representacao;
 
 		if (this.representacoes.length > 1) {
@@ -18,7 +18,5 @@ abstract class Bloco {
 
 			this.representacoes[i] = cabeca;
 		}
-
-		return this.representacao;
 	}
 }
