@@ -337,3 +337,34 @@ test(testeMapear, function () {
 											[ 0, -1]]);
 
 });
+
+test("reduzir2D deve lancar exceção para arrays com menos de 2 elementos.", function () {
+	const a = [[-1]];
+
+	const fn = (x, y) => x | y;
+
+	let e: Error;
+    try {
+        reduzir2D(a, fn);
+    } catch (exception) {
+        e = exception;
+    }
+
+    expect(e).not.toBeUndefined();
+    expect(e instanceof Error).toBe(true);
+});
+
+const testeReduzir2D
+	= "reduzir2D deve retornar o valor acumulado da aplicação sucessiva de `fn` aos elementos de `a`.";
+test(testeReduzir2D, function () {
+	const a1 = [[ 0, -1],
+				[ 0,  0],
+			    [-1,  0]];
+	const r1 = (x, y) => x + y;
+	const r2 = (x, y) => x | y; // algum?
+	const r3 = (x, y) => x & y; // todos?
+
+	expect(reduzir2D(a1, r1)).toBe(-2);
+	expect(reduzir2D(a1, r2)).toBe(-1);
+	expect(reduzir2D(a1, r3)).toBe(0);
+});

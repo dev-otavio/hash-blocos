@@ -357,23 +357,36 @@ export function mapear2D(a: Array<Array<number>>, fn: (x: number) => number): Ar
 }
 
 /**
- *@param {Array<number>} a - Um array cujos elementos serão reduzidos a um único valor através de `fn`.
+ *@param {Array<Array<number>>} a - Um array cujos elementos serão reduzidos a um único valor através de `fn`.
  *@param {(ac:number, c: number) => number} fn - Uma função aplicada sucessivamente sobre elementos de `a` recebendo um acumulador `ac` que é o resultado da aplicacao anterior ou o primeiro elemento de `a` e o valor `c` da posição atual de `a`.
- *@return {Array<number>} Um número que é o resultado acumulado de aplicação sucessiva de `fn` aos elementos de `a`.
+ *@return {number} Um número que é o resultado acumulado de aplicação sucessiva de `fn` aos elementos de `a`.
  */
-export function reduzir2D(a: Array<number>, fn: (ac: number, c: number) => number): number {
+export function reduzir2D(a: Array<Array<number>>, fn: (ac: number, c: number) => number): number {
 
-	// if (a.length < 2) {
-	// 	throw new Error(`Array possui apenas ${a.length} elemento(s)`);
-	// }
+	const comprimento = a.length;
+	const largura = a[0].length;
+	const numeroElementos = comprimento * largura;
+	if (numeroElementos < 2) {
+		throw new Error(numeroElementos ? `Array possui apenas 1 elemento` : `Array vazia`);
+	}
 
-	// let ac = fn(a[0], a[1]);
-	// let i = 2;
-	// while (i < a.length) {
-	// 	ac = fn(ac, a[i]);
-	// 	i += 1;
-	// }
+	let parcial = [];
+	let i = 0;
 
-	// return ac;
+	while (i < a.length) {
+		parcial.push(reduzir(a[i], fn));
+		i += 1;
+	}
 
+	if (parcial.length < 2) {
+		return parcial[0];
+	} else {
+		let ac = fn(parcial[0], parcial[1]);
+		let j = 2;
+		while (j < parcial.length) {
+			ac = fn(ac, parcial[j]);
+			j += 1;
+		}
+		return ac;
+	}
 }
