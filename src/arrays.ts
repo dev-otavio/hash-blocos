@@ -341,9 +341,9 @@ export function sobreporArray2D(
 }
 
 /**
- *@param {Array<number>} a - Um array cujos elementos serão a base para o array retornado.
+ *@param {Array<Array<number>>} a - Um array cujos elementos serão a base para o array retornado.
  *@param {(x: number) => number} fn - Uma função a ser aplicada sobre os elementos de `a`.
- *@return {Array<number>} Um array cujos elementos são resultado da aplicação de `fn` aos elementos
+ *@return {Array<Array<number>>} Um array cujos elementos são resultado da aplicação de `fn` aos elementos
 correspondentes em `a`.
  */
 export function mapear2D(a: Array<Array<number>>, fn: (x: number) => number): Array<Array<number>> {
