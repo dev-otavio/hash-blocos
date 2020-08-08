@@ -5,7 +5,6 @@ import { criarArray
 		 , reduzir
 		 , sobreporArray } from "../src/arrays";
 
-
 test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function (){
 	const numeroElementos = 5;
 	const a = criarArray(numeroElementos);
@@ -13,7 +12,7 @@ test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para 
 	expect(a.every(e => e === 0)).toBe(true);
 });
 
-test("criarArray(n) lança exceção para n negativo.", function () {
+test("criarArray(n) deve lançar exceção para n negativo.", function () {
 	let e: Error;
 
 	try {
@@ -51,7 +50,7 @@ test(testeCopiaComInicioElementos, function () {
 	expect(copia).toStrictEqual(original.slice(inicio));
 });
 
-const testeSolicitandoElementosEmExcesso = "copiarArray(xs, inicio, elementos) lança exceção se `elementos` > `original`.length - `inicio`.";
+const testeSolicitandoElementosEmExcesso = "copiarArray(xs, inicio, elementos) deve lançar exceção se `elementos` > `original`.length - `inicio`.";
 test(testeSolicitandoElementosEmExcesso, function() {
 	const inicio = 0;
 	const original = [0, 0, -1, 0, -1];
@@ -68,7 +67,7 @@ test(testeSolicitandoElementosEmExcesso, function() {
 	expect(e instanceof Error).toBe(true);
 });
 
-test("copiarArray(xs, i, e) lança exceção para `i` ou `e` negativos.", function () {
+test("copiarArray(xs, i, e) deve lançar exceção para `i` ou `e` negativos.", function () {
 	const original = [0, 0, -1, 0, -1];
 	const inicio = 1;
 	const elementos = 1;
@@ -108,7 +107,7 @@ test(testeCombinar, function() {
 	expect(combinar(a1, a2, fn)).toStrictEqual(esperado);
 });
 
-test("combinar lança exceção para arrays de tamanho distintos.", function () {
+test("combinar deve lançar exceção para arrays de tamanho distintos.", function () {
 	const a1 = [-1, -1];
 	const a2 = [ 0,  0, -1,  0, -1];
 
@@ -135,7 +134,7 @@ test(testeSobrepor, function () {
 });
 
 const testeSobreporLancandoExcecao
-	= "sobreporArray lança exceção se tamanho `a2` é maior que o tamanho de `a1` - `posicaoInicial`."
+	= "sobreporArray deve lançar exceção se tamanho `a2` é maior que o tamanho de `a1` - `posicaoInicial`."
 test(testeSobreporLancandoExcecao, function () {
 	const a1 = [-1, -1];
 	const a2 = [ 0,  0, -1,  0, -1];
@@ -163,11 +162,11 @@ test(testeMapear, function () {
 	expect(resultado).toStrictEqual(esperado);
 });
 
-test("mapear retorna array vazio para `a` vazio", function () {
+test("mapear deve retornar array vazio para `a` vazio", function () {
 	expect(mapear([], x => -1)).toStrictEqual([]);
 });
 
-test("reduzir lança exceção para tamanho de `a` < 2.", function () {
+test("reduzir deve lançar exceção para tamanho de `a` < 2.", function () {
 	const a = [0];
 	const redutor = (x, y) => x | y;
 
@@ -182,7 +181,7 @@ test("reduzir lança exceção para tamanho de `a` < 2.", function () {
 	expect(e instanceof Error).toBe(true);
 });
 
-test("reduzir retorna valor para arrays com tamanho maior que 2.", function () {
+test("reduzir deve retornar valor para arrays com tamanho maior que 2.", function () {
 	const a1 = [0 , -1, 0, 0];
 	const r1 = (x, y) => x + y;
 	const r2 = (x, y) => x | y; // algum?

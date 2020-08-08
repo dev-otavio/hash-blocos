@@ -1,6 +1,8 @@
 import { criarArray2D
          , copiarArray2D
          , combinar2D
+		 , mapear2D
+		 , reduzir2D
          , sobreporArray2D } from "../src/arrays";
 
 const testeCriarArray2D = "criarArray2D(l, c) deve criar um array bidimensional de `l` linhas e `c` colunas representando uma matriz de `l` * `c` elementos com valor inicial 0.";
@@ -14,7 +16,7 @@ test(testeCriarArray2D, function() {
     expect(array.every(l => l.every(e => e === 0))).toBe(true);
 });
 
-test("criarArray2D(l, c) lança exceção para `l` ou `c` negativos.", function () {
+test("criarArray2D(l, c) deve lançar exceção para `l` ou `c` negativos.", function () {
 
     let e1: Error;
 
@@ -58,7 +60,7 @@ test(testeCopiarArray2D, function() {
     expect(copiarArray2D(original, { ...posicaoInicial, ...regiao })).toStrictEqual(esperado);
 });
 
-test("copiarArray2D lança exceção para valor negativo para qualquer propriedade do parâmetro `regiao`.", function () {
+test("copiarArray2D deve lançar exceção para valor negativo para qualquer propriedade do parâmetro `regiao`.", function () {
 
     const original = [];
     const linha = 1;
@@ -109,7 +111,7 @@ test("copiarArray2D lança exceção para valor negativo para qualquer proprieda
 });
 
 const testeSolicitaLinhasExcesso
-    = "copiarArray2D lança exceção se `linhas` é maior que números de linhas disponíveis considerando `original.length - linha.`"
+    = "copiarArray2D deve lançar exceção se `linhas` é maior que números de linhas disponíveis considerando `original.length - linha.`"
 test(testeSolicitaLinhasExcesso, function () {
     const original = [[-1,  0,  0, -1],
                       [-1, -1,  0,  0],
@@ -135,7 +137,7 @@ test(testeSolicitaLinhasExcesso, function () {
 
 
 const testeSolicitaColunasExcesso
-    = "copiarArray2D lança exceção se `colunas` é maior que números de colunas disponíveis considerando `original[linha].length - coluna.`"
+    = "copiarArray2D deve lançar exceção se `colunas` é maior que números de colunas disponíveis considerando `original[linha].length - coluna.`"
 test(testeSolicitaColunasExcesso, function () {
 
     const original = [[-1,  0,  0, -1],
@@ -160,7 +162,7 @@ test(testeSolicitaColunasExcesso, function () {
 
 });
 
-test("copiarArray2D lança exceção se `original` possui número desigual de colunas.", function () {
+test("copiarArray2D deve lançar exceção se `original` possui número desigual de colunas.", function () {
     const original = [[ 0,  0],
                       [-1,  0],
                       [-1],
@@ -181,15 +183,15 @@ test("copiarArray2D lança exceção se `original` possui número desigual de co
     expect(e instanceof Error).toBe(true);
 });
 
-test("combinar2D lança exceção para arrays com tamanhos distintos.", function () {
+test("combinar2D deve lançar exceção para arrays com tamanhos distintos.", function () {
     const a1 = [[ 0,  0],
                 [-1,  0],
                 [-1]];
     const a2 = [[-1,  0],
                 [-1,  0],
                 [-1,  0]];
-    let e1: Error;
 
+    let e1: Error;
     try {
         console.log(combinar2D(a1, a2, (_, __) => 0));
     } catch (exception) {
@@ -201,7 +203,8 @@ test("combinar2D lança exceção para arrays com tamanhos distintos.", function
 
     const a3 = [[]];
     const a4 = [[], []];
-    let e2: Error;
+
+	let e2: Error;
     try {
         console.log(combinar2D(a3, a4, (_, __) => 0));
     } catch (exception) {
@@ -254,7 +257,7 @@ test(testeSobrepor, function () {
 });
 
 const testeSobreporLancaExcecaoLinhasExcedentes
-    = "sobreporArray2D lança exceção se quantidade de linhas de `a2` excede espaço disponível considerando a linha da `posicaoInicial`.";
+    = "sobreporArray2D deve lançar exceção se quantidade de linhas de `a2` excede espaço disponível considerando a linha da `posicaoInicial`.";
 test(testeSobreporLancaExcecaoLinhasExcedentes, function () {
 
     const a1 = [[ 0,  0, -1,  0, -1],
@@ -281,7 +284,7 @@ test(testeSobreporLancaExcecaoLinhasExcedentes, function () {
 });
 
 const testeSobreporLancaExcecaoColunasExcedentes
-    = "sobreporArray2D lança exceção se quantidade de colunas de `a2` excede espaço disponível considerando a linha e coluna da `posicaoInicial`.";
+    = "sobreporArray2D deve lançar exceção se quantidade de colunas de `a2` excede espaço disponível considerando a linha e coluna da `posicaoInicial`.";
 test(testeSobreporLancaExcecaoColunasExcedentes, function () {
 
     const a1 = [[ 0,  0, -1,  0, -1],
@@ -304,5 +307,33 @@ test(testeSobreporLancaExcecaoColunasExcedentes, function () {
 
     expect(e).not.toBeUndefined();
     expect(e instanceof Error).toBe(true);
+
+});
+
+test("mapear2D deve retornar array vazio para `a` vazio.", function () {
+	const a = [];
+	const resultado = mapear2D(a, x => x);
+
+	expect(resultado).toStrictEqual([]);
+});
+
+const testeMapear
+	= "mapear2D deve retornar array bidimensional com mesmas dimensões de `a` e cada elemento deve ser o resultado da aplicação de `fn` ao elemento em posição correspondente em `a`."
+test(testeMapear, function () {
+	const a = [[ 0, -1],
+			   [-1,  0]];
+
+	const fn1 = _ => -1;
+	const fn2 = _ =>  0;
+	const fn3 = x => ~x;
+
+	expect(mapear2D(a, fn1)).toStrictEqual([[-1, -1],
+											[-1, -1]]);
+
+	expect(mapear2D(a, fn2)).toStrictEqual([[0, 0],
+											[0, 0]]);
+
+	expect(mapear2D(a, fn3)).toStrictEqual([[-1,  0],
+											[ 0, -1]]);
 
 });
