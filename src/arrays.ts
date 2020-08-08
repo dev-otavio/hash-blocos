@@ -20,6 +20,33 @@ export function criarArray(n: number): Array<number> {
 }
 
 /**
+*@param {Array<number>} a1 - Array cujos elementos serão o primeiro argumento para `fn`.
+*@param {Array<number>} a2 - Array cujos elementos serão o segundo argumento para `fn`.
+*@param {(x: number, y: number) => number} fn - Função que irá combinar elementos de `a1` e `a2`.
+*@return Um array com as mesmas dimensões de `a1` e `a2` com elementos formados a partir
+* da aplicação de `fn` aos elementos de posições correspondentes em `a1` e `a2`.
+*/
+export function combinar(
+	a1: Array<number>,
+	a2: Array<number>,
+	fn: (x: number, y: number) => number): Array<number> {
+
+	const tamanho = a1.length;
+	if (a2.length !== tamanho) {
+		throw new Error(`Arrays têm dimensões distintas: (${tamanho}, ${a2.length})`);
+	}
+
+	const resultado = [];
+	let i = 0;
+	while (i < tamanho) {
+		resultado[i] = fn(a1[i], a2[i]);
+		i += 1;
+	}
+
+	return resultado;
+}
+
+/**
 *@param {Array<number>} original - Array a ser copiada.
 *@param {number} inicio - Índice do primeiro elemento a ser copiado.
 *@param {number|undefined} elementos - Número de elementos a serem copiados.

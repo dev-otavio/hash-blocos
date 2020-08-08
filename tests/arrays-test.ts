@@ -1,4 +1,7 @@
-import { criarArray, copiarArray, sobreporArray } from "../src/arrays";
+import { criarArray
+		 , copiarArray
+		 , combinar
+		 , sobreporArray } from "../src/arrays";
 
 
 test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function (){
@@ -90,6 +93,32 @@ test("copiarArray(xs, i, e) lança exceção para `i` ou `e` negativos.", functi
 	expect(e2).not.toBeUndefined();
 	expect(e2 instanceof Error).toBe(true);
 
+});
+
+const testeCombinar
+	= "combinar deve retornar um array com mesmas dimensões das arrays passadas como argumentos e com elementos de ambas combinados com a aplicação de `fn`." 
+test(testeCombinar, function() {
+	const a1 = [ 0,  0, -1];
+	const a2 = [ 0, -1,  0];
+	const fn = (x: number, y: number) => x + y;
+	const esperado = [ 0, -1, -1];
+
+	expect(combinar(a1, a2, fn)).toStrictEqual(esperado);
+});
+
+test("combinar lança exceção para arrays de tamanho distintos.", function () {
+	const a1 = [-1, -1];
+	const a2 = [ 0,  0, -1,  0, -1];
+
+	let e: Error;
+	try {
+		console.log(combinar(a1, a2, (_, y) => y));
+	} catch (exception) {
+		e = exception;
+	}
+
+	expect(e).not.toBeUndefined();
+	expect(e instanceof Error).toBe(true);
 });
 
 const testeSobrepor
