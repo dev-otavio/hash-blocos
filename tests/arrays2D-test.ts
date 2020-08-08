@@ -3,7 +3,7 @@ import { criarArray2D
          , combinar2D
 		 , mapear2D
 		 , reduzir2D
-         , sobreporArray2D } from "../src/arrays";
+         , sobreporArray2D } from "../src/arrays2D";
 
 const testeCriarArray2D = "criarArray2D(l, c) deve criar um array bidimensional de `l` linhas e `c` colunas representando uma matriz de `l` * `c` elementos com valor inicial 0.";
 test(testeCriarArray2D, function() {
