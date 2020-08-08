@@ -179,7 +179,7 @@ export function combinar2D(
 	const resultado = [];
 
 	let i = 0;
-	while (i < tamanho) {
+	while (i < tamanho) {nn
 		try {
 			resultado.push(combinar(a1[i], a2[i], fn));
 		} catch (e) {
@@ -300,5 +300,43 @@ export function sobreporArray2D(
 	}
 
 	return copia;
+
+}
+
+/**
+ *@param {Array<number>} a - Um array cujos elementos serão a base para o array retornado.
+ *@param {(x: number) => number} fn - Uma função a ser aplicada sobre os elementos de `a`.
+ *@return {Array<number>} Um array cujos elementos são resultado da aplicação de `fn` aos elementos
+correspondentes em `a`.
+ */
+export function mapear(a: Array<number>, fn: (x: number) => number): Array<number> {
+	const resultado = [];
+	let i = 0;
+	while (i < a.length) {
+		resultado.push(fn(a[i]));
+		i += 1;
+	}
+	return resultado;
+}
+
+/**
+ *@param {Array<number>} a - Um array cujos elementos serão reduzidos a um único valor através de `fn`.
+ *@param {(ac:number, c: number) => number} fn - Uma função aplicada sucessivamente sobre elementos de `a` recebendo um acumulador `ac` que é o resultado da aplicacao anterior ou o primeiro elemento de `a` e o valor `c` da posição atual de `a`.
+ *@return {Array<number>} Um número que é o resultado acumulado de aplicação sucessiva de `fn` aos elementos de `a`.
+ */
+export function reduzir(a: Array<number>, fn: (ac: number, c: number) => number): number {
+
+	if (a.length < 2) {
+		throw new Error(`Array possui apenas ${a.length} elemento(s)`);
+	}
+
+	let ac = fn(a[0], a[1]);
+	let i = 2;
+	while (i < a.length) {
+		ac = fn(ac, a[i]);
+		i += 1;
+	}
+
+	return ac;
 
 }

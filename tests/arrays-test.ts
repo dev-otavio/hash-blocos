@@ -1,6 +1,8 @@
 import { criarArray
 		 , copiarArray
 		 , combinar
+		 , mapear
+		 , reduzir
 		 , sobreporArray } from "../src/arrays";
 
 
@@ -148,4 +150,44 @@ test(testeSobreporLancandoExcecao, function () {
 
 	expect(e).not.toBeUndefined();
 	expect(e instanceof Error).toBe(true);
+});
+
+const testeMapear
+	= "mapear deve retornar array com mesma dimensão de `a` e com seus elementos transformados através de aplicação de `fn`.";
+test(testeMapear, function () {
+	const a = [-1, 0, -1];
+	const not = x => ~x;
+	const esperado = a.map(not);
+	const resultado = mapear(a, not);
+
+	expect(resultado).toStrictEqual(esperado);
+});
+
+test("mapear retorna array vazio para `a` vazio", function () {
+	expect(mapear([], x => -1)).toStrictEqual([]);
+});
+
+test("reduzir lança exceção para tamanho de `a` < 2.", function () {
+	const a = [0];
+	const redutor = (x, y) => x | y;
+
+	let e: Error;
+	try {
+		console.log(reduzir(a, redutor));
+	} catch (exception) {
+		e = exception;
+	}
+
+	expect(e).not.toBeUndefined();
+	expect(e instanceof Error).toBe(true);
+});
+
+test("reduzir retorna valor para arrays com tamanho maior que 2.", function () {
+	const a1 = [0 , -1, 0, 0];
+	const r1 = (x, y) => x + y;
+	const r2 = (x, y) => x | y; // algum?
+	const r3 = (x, y) => x & y; // todos?
+	expect(reduzir(a1, r1)).toBe(-1);
+	expect(reduzir(a1, r2)).toBe(-1);
+	expect(reduzir(a1, r3)).toBe(0);
 });
