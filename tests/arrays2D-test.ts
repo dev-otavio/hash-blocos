@@ -1,4 +1,7 @@
-import { criarArray2D, copiarArray2D, sobreporArray2D } from "../src/arrays";
+import { criarArray2D
+		 , copiarArray2D
+		 , combinar2D
+		 , sobreporArray2D } from "../src/arrays";
 
 
 const testeCriarArray2D = "criarArray2D(l, c) deve criar um array bidimensional de `l` linhas e `c` colunas representando uma matriz de `l` * `c` elementos com valor inicial 0.";
@@ -177,7 +180,57 @@ test("copiarArray2D lança exceção se `original` possui número desigual de co
 
 	expect(e).not.toBeUndefined();
 	expect(e instanceof Error).toBe(true);
+});
 
+test("combinar2D lança exceção para arrays com tamanhos distintos.", function () {
+	const a1 = [[ 0,  0],
+				[-1,  0],
+				[-1]];
+	const a2 = [[-1,  0],
+				[-1,  0],
+				[-1,  0]];
+	let e1: Error;
+
+	try {
+		console.log(combinar2D(a1, a2, (_, __) => 0));
+	} catch (exception) {
+		e1 = exception;
+	}
+
+	expect(e1).not.toBeUndefined();
+	expect(e1 instanceof Error).toBe(true);
+
+	const a3 = [[]];
+	const a4 = [[], []];
+	let e2: Error;
+	try {
+		console.log(combinar2D(a3, a4, (_, __) => 0));
+	} catch (exception) {
+		e2 = exception;
+	}
+
+	expect(e2).not.toBeUndefined();
+	expect(e2 instanceof Error).toBe(true);
+});
+
+const testeCombinar2D
+	= "combinar2D deve retornar array bidimensional com mesmas dimensões dos argumentos `a1` e `a2` e te ter elementos resultantes da aplicação de `fn` aos elementos correspondentes das arrays referidas."
+test(testeCombinar2D, function () {
+	const a1 = [[ 0,  0],
+				[-1,  0],
+				[-1,  0]];
+
+	const a2 = [[-1,  0],
+				[-1,  0],
+				[-1,  0]];
+
+	const fn = (x, y) => ~(x & y);
+	const esperado = [[-1, -1],
+					  [ 0, -1],
+					  [ 0, -1]];
+
+	const resultado = combinar2D(a1, a2, fn);
+	expect(resultado).toStrictEqual(esperado);
 });
 
 const testeSobrepor

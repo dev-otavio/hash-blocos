@@ -160,11 +160,48 @@ export function criarArray2D(linhas: number, colunas: number): Array<Array<numbe
 }
 
 /**
+*@param {Array<Array<number>>} a1 - Array bidimensional cujos elementos serão o primeiro argumento para `fn`.
+*@param {Array<Array<number>>} a2 - Array bidimensional cujos elementos serão o segundo argumento para `fn`.
+*@param {(x: number, y: number) => number} fn - Função que irá combinar elementos de `a1` e `a2`.
+*@return Um array com as mesmas dimensões de `a1` e `a2` com elementos formados a partir
+* da aplicação de `fn` aos elementos de posições correspondentes em `a1` e `a2`.
+*/
+export function combinar2D(
+	a1: Array<Array<number>>,
+	a2: Array<Array<number>>,
+	fn: (x: number, y: number) => number): Array<number> {
+
+	const tamanho = a1.length;
+	if (a2.length !== tamanho) {
+		throw new Error(`Arrays têm dimensões distintas: (${tamanho} linha(s), ${a2.length} linha(s))`);
+	}
+
+	const resultado = [];
+
+	let i = 0;
+	while (i < tamanho) {
+		try {
+			resultado.push(combinar(a1[i], a2[i], fn));
+		} catch (e) {
+			if (a1[i].length !== a2[i].length) {
+				throw new Error(`Arrays têm dimensões distintas na linha ${i}: (${a1[i].length} coluna(s), ${a2[i].length} coluna(s))`);
+			} else {
+				throw e;
+			}
+		}
+		i += 1;
+
+	}
+
+	return resultado;
+}
+
+/**
 *@param {Array<Array<number>>} original - Um array bidimensional do qual os elementos serão copiados.
 *@param {{linha: number,
-*         coluna: number,
-*         linhas: number,
-*         colunas: number }} regiao - Objeto contendo número de `linhas` e `colunas` a serem copiados de `original` a partir de `original[linha][coluna]`.
+          coluna: number,
+          linhas: number,
+          colunas: number }} regiao - Objeto contendo número de `linhas` e `colunas` a serem copiados de `original` a partir de `original[linha][coluna]`.
 *@return Um array bidimensional com `linhas` linhas e `colunas` colunas copiados de `original` a partir de `original[linha][coluna]`.
 */
 export function copiarArray2D(
