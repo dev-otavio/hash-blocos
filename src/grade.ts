@@ -5,7 +5,6 @@ import { T } from "./t";
 import { L } from "./l";
 import { S } from "./s";
 import { criarArray2D
-		 , duplicarArray2D
 		 , sobreporArray2D
 		 , copiarArray2D
 		 , reduzir2D
@@ -19,7 +18,7 @@ export class Grade {
 	comprimento: number;
 	largura: number;
 	bloco: Bloco;
-	posicaoBloco: { linha: number, coluna: number };
+	posicaoBloco?: { linha: number, coluna: number };
 
 	constructor(comprimento = 14, largura = 10) {
 		this.comprimento = comprimento + 4;
@@ -36,9 +35,7 @@ export class Grade {
 	}
 
 	get distribuicao() {
-		const copia = duplicarArray2D(this.matriz);
-		console.log(copia);
-		return sobreporArray2D(copia, this.bloco.representacao, this.posicaoBloco);
+		return this.sobreporBloco();
 	}
 
 	proximoBloco() {
@@ -69,12 +66,12 @@ export class Grade {
 		const representacaoSeguinte
 			= this.bloco.representacoes[1];
 
-		const temEspacoDisponival
+		const temEspacoDisponivel
 			= this.verificarDisponibilidadeEspaco(this.matriz
 												  , representacaoSeguinte
 												  , this.posicaoBloco);
 
-		if (temEspacoDisponival) {
+		if (temEspacoDisponivel) {
 			this.bloco.rotacionar();
 			return true;
 		}
@@ -83,7 +80,38 @@ export class Grade {
 	}
 
 	moverParaBaixo() {
+		const temEspacoDisponivel
+			= this.verificarDisponibilidadeEspaco(this.matriz
+												  , this.bloco.representacao
+												  , { ...this.posicaoBloco
+													  , linha: this.posicaoBloco.linha + 1 });
 
+		if (temEspacoDisponivel) {
+			this.posicaoBloco.linha += 1;
+			return true;
+		}
+
+		this.fixarBloco();
+		this.posicaoBloco = undefined;
+		this.proximoBloco();
+		return false;
+	}
+
+	sobreporBloco() {
+		const copia
+			= copiarArray2D(this.matriz
+							, { ...this.posicaoBloco
+								, linhas: this.comprimentoBloco
+								, colunas: this.larguraBloco });
+
+		const combinados
+			= combinar2D(copia, this.bloco.representacao, (x, y) => x | y);
+
+		return sobreporArray2D(this.matriz, combinados, this.posicaoBloco);
+	}
+
+	fixarBloco() {
+		this.matriz = this.sobreporBloco();
 	}
 
 	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
@@ -91,15 +119,19 @@ export class Grade {
 								   , posicao: { linha: number
 									 		   , coluna: number }) {
 
-		const copia = copiarArray2D(matriz, { linhas: representacao.length
-											  , colunas: representacao[0].length
-											  , ...posicao });
+		try {
+			const copia = copiarArray2D(matriz, { linhas: representacao.length
+												  , colunas: representacao[0].length
+												  , ...posicao });
 
-		const combinados = combinar2D(copia
-									  , representacao
-									  , (x, y) => ~(x & y));
+			const combinados = combinar2D(copia
+										  , representacao
+										  , (x, y) => ~(x & y));
 
-		return !!reduzir2D(combinados
-						   , (x, y) => x & y);
+			return !!reduzir2D(combinados
+							   , (x, y) => x & y);
+		} catch (e) {
+			return false;
+		}
 	}
 }
