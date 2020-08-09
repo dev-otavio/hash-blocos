@@ -3,6 +3,7 @@ import { criarArray2D
          , combinar2D
 		 , mapear2D
 		 , reduzir2D
+		 , remover2D
 		 , duplicarArray2D
          , sobreporArray2D } from "../src/arrays2D";
 
@@ -373,4 +374,48 @@ test(testeReduzir2D, function () {
 	expect(reduzir2D(a1, r1)).toBe(-2);
 	expect(reduzir2D(a1, r2)).toBe(-1);
 	expect(reduzir2D(a1, r3)).toBe(0);
+});
+
+const testeRemoverLinha
+	= "remover2D deve retornar array com mesma dimensao da original com todos elementos igual a zero na primeiro linha e todas linhas da original ocupando as linhas seguintes exceto a linha `i`.";
+test(testeRemoverLinha, function () {
+	const original = [[-1,  0,  0],
+					  [-1, -1, -1],
+					  [ 0, -1, -1]];
+
+	const esperado = [[ 0,  0,  0],
+					  [-1,  0,  0],
+					  [ 0, -1, -1]];
+
+	const i = 1;
+	expect(remover2D(original, i)).toStrictEqual(esperado);
+});
+
+const testeRemoverLancaExcecao
+	= "remover2D deve lançar exceção para `i` < 0 ou maior que número de linhas de `original.`"
+test(testeRemoverLancaExcecao, function () {
+
+	const original = [[-1, 0]];
+	const i1 = -1;
+    let e1: Error;
+    try {
+        console.log(remover2D(original, i1));
+    } catch (exception) {
+        e1 = exception;
+    }
+
+    expect(e1).not.toBeUndefined();
+    expect(e1 instanceof Error).toBe(true);
+
+	const i2 = 3;
+	let e2: Error;
+    try {
+        console.log(remover2D(original, i2));
+    } catch (exception) {
+        e2 = exception;
+    }
+
+    expect(e2).not.toBeUndefined();
+    expect(e2 instanceof Error).toBe(true);
+
 });
