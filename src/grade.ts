@@ -21,7 +21,7 @@ export class Grade {
 	bloco: Bloco;
 	posicaoBloco: { linha: number, coluna: number };
 
-	constructor(comprimento = 22, largura = 10) {
+	constructor(comprimento = 14, largura = 10) {
 		this.comprimento = comprimento + 4;
 		this.largura = largura;
 		this.matriz = criarArray2D(this.comprimento, this.largura);
@@ -37,6 +37,7 @@ export class Grade {
 
 	get distribuicao() {
 		const copia = duplicarArray2D(this.matriz);
+		console.log(copia);
 		return sobreporArray2D(copia, this.bloco.representacao, this.posicaoBloco);
 	}
 
@@ -52,11 +53,8 @@ export class Grade {
 
 		const temEspaco
 			= this.verificarDisponibilidadeEspaco(this.matriz
-												  , bloco
-												  , { linhas: bloco.representacao.length
-													  , colunas: bloco.representacao[0].length
-													  , ...posicao
-												    });
+												  , bloco.representacao
+												  , posicao);
 
 		if (temEspaco) {
 			this.bloco = bloco;
@@ -67,16 +65,38 @@ export class Grade {
 		return false;
 	}
 
-	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
-								   , bloco: Bloco
-								   , posicao: { linha: number
-									 		   , coluna: number
-									  		   , linhas: number
-									 		   , colunas:number }) {
+	rotacionar() {
+		const representacaoSeguinte
+			= this.bloco.representacoes[1];
 
-		const copia = copiarArray2D(matriz, posicao);
+		const temEspacoDisponival
+			= this.verificarDisponibilidadeEspaco(this.matriz
+												  , representacaoSeguinte
+												  , this.posicaoBloco);
+
+		if (temEspacoDisponival) {
+			this.bloco.rotacionar();
+			return true;
+		}
+
+		return false;
+	}
+
+	moverParaBaixo() {
+
+	}
+
+	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
+								   , representacao: Array<Array<number>>
+								   , posicao: { linha: number
+									 		   , coluna: number }) {
+
+		const copia = copiarArray2D(matriz, { linhas: representacao.length
+											  , colunas: representacao[0].length
+											  , ...posicao });
+
 		const combinados = combinar2D(copia
-									  , bloco.representacao
+									  , representacao
 									  , (x, y) => ~(x & y));
 
 		return !!reduzir2D(combinados
