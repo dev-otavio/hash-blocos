@@ -245,24 +245,25 @@ export function reduzir2D(a: Array<Array<number>>, fn: (ac: number, c: number) =
 /**
  *@param {Array<Array<number>>} original - Um array bidimensional contendo linha a ser excluída.
  *@param {number} i - índice da linha a ser excluída.
- *@returns {Array<Array<number>>} Um array com mesmas dimensões da `original` com todos elementos igual a 0 na linha 0 e linhas seguintes com todas linhas de `original` exceto a de posição `i`.
+ *@returns {Array<Array<number>>} Um array com mesmas dimensões da `original` com todos elementos igual a 0 na linha 0 e linhas seguintes copiadas em ordem de `original` excluindo a de posição `i`.
  */
-export function remover2D(original: Array<Array<number>>, i: number) {
+export function remover2D(original: Array<Array<number>>, i: number): Array<Array<number>> {
 	const comprimento = original.length;
 	const largura = original[0].length;
 
 	if (i < 0) { throw new Error(`Argumento inválido: ${i}`); }
 	if (i > comprimento) { throw new Error(`Argumento inválido: ${i}, array possui ${comprimento} linha(s)`); }
 
-	const resultado = criarArray2D(comprimento, largura); 
-	let l = 1;
-	while (l < comprimento) {
-		if (i > l - 1) {
-			resultado[l] = original[l - i]
-		} else if (l > i) {
-			resultado[l] = original[l];
+	const resultado = criarArray2D(comprimento, largura);
+
+	let rl = 1;
+	let ol = 0;
+	while (rl < comprimento) {
+		if (ol !== i) {
+			resultado[rl] = original[ol];
+			rl += 1;
 		}
-		l += 1;
+		ol += 1;
 	}
 
 	return resultado;

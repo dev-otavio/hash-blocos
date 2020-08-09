@@ -379,16 +379,36 @@ test(testeReduzir2D, function () {
 const testeRemoverLinha
 	= "remover2D deve retornar array com mesma dimensao da original com todos elementos igual a zero na primeiro linha e todas linhas da original ocupando as linhas seguintes exceto a linha `i`.";
 test(testeRemoverLinha, function () {
-	const original = [[-1,  0,  0],
-					  [-1, -1, -1],
-					  [ 0, -1, -1]];
+	const original
+		= [[-1,  0,  0],
+		   [-1, -1, -1],
+		   [ 0, -1, -1]];
 
-	const esperado = [[ 0,  0,  0],
-					  [-1,  0,  0],
-					  [ 0, -1, -1]];
+	const e1
+		= [[ 0,  0,  0],
+		   [-1, -1, -1],
+		   [ 0, -1, -1]];
 
-	const i = 1;
-	expect(remover2D(original, i)).toStrictEqual(esperado);
+	const i1 = 0;
+	expect(remover2D(original, i1)).toStrictEqual(e1);
+
+	const e2
+		= [[ 0,  0,  0],
+		   [-1,  0,  0],
+		   [ 0, -1, -1]];
+
+	const i2 = 1;
+	expect(remover2D(original, i2)).toStrictEqual(e2);
+
+	const e3
+		= [[ 0,  0,  0],
+		   [-1,  0,  0],
+		   [-1, -1, -1]];
+		   
+
+	const i3 = 2;
+	expect(remover2D(original, i3)).toStrictEqual(e3);
+
 });
 
 const testeRemoverLancaExcecao
