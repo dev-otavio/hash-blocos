@@ -90,6 +90,14 @@ export function copiarArray(original: Array<number>, inicio: number, elementos: 
 }
 
 /**
+ *@param {Array<number>} original - Array a ser copiada.
+ *@returns {Array<number>} Cópia da array `original`.
+*/
+export function duplicarArray(original: Array<number>): Array<number> {
+	return copiarArray(original, 0);
+}
+
+/**
  *@param {Array<number>} a1 - Array base para cópia.
  *@param {Array<number>} a2 - Array cujos elementos irão substituir os elementos de `a1` a partir da `posicaoInicial` na array retornada.
  *@param {number} posicaoInicial - Índice a partir do qual devem ser inseridos elementos de `a2`.

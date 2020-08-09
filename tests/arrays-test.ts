@@ -3,6 +3,7 @@ import { criarArray
 		 , combinar
 		 , mapear
 		 , reduzir
+		 , duplicarArray
 		 , sobreporArray } from "../src/arrays";
 
 test("criarArray(n) deve criar um array de n elementos com valor inicial 0 para n >= 0.", function (){
@@ -94,6 +95,14 @@ test("copiarArray(xs, i, e) deve lançar exceção para `i` ou `e` negativos.", 
 	expect(e2).not.toBeUndefined();
 	expect(e2 instanceof Error).toBe(true);
 
+});
+
+test("duplicarArray deve retornar um array idêntico ao `original`.", function () {
+	const a = [-1, -1,  0, -1];
+	expect(duplicarArray(a)).toStrictEqual([-1, -1,  0, -1]);
+
+	const b = [];
+	expect(duplicarArray(b)).toStrictEqual([]);
 });
 
 const testeCombinar

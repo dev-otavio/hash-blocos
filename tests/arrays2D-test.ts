@@ -3,6 +3,7 @@ import { criarArray2D
          , combinar2D
 		 , mapear2D
 		 , reduzir2D
+		 , duplicarArray2D
          , sobreporArray2D } from "../src/arrays2D";
 
 const testeCriarArray2D = "criarArray2D(l, c) deve criar um array bidimensional de `l` linhas e `c` colunas representando uma matriz de `l` * `c` elementos com valor inicial 0.";
@@ -181,6 +182,11 @@ test("copiarArray2D deve lançar exceção se `original` possui número desigual
 
     expect(e).not.toBeUndefined();
     expect(e instanceof Error).toBe(true);
+});
+
+test("duplicarArray2D deve retornar array idêntico ao `original`.", function () {
+	const original = [[-1], [0], [0]];
+	expect(duplicarArray2D(original)).toStrictEqual([[-1], [0], [0]]);
 });
 
 test("combinar2D deve lançar exceção para arrays com tamanhos distintos.", function () {

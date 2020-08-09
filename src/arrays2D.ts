@@ -132,6 +132,17 @@ export function copiarArray2D(
 }
 
 /**
+ *@param {Array<Array<number>>} original - Um array bidimensional do qual os elementos serão copiados.
+ *@returns {Array<Array<number>>} Um array bidimensional idêntico ao original.
+ */
+export function duplicarArray2D(original: Array<Array<number>>): Array<Array<number>> {
+	return copiarArray2D(original, { linha: 0
+									 , coluna: 0
+								     , linhas: original.length
+								     , colunas: original[0].length });
+}
+
+/**
  *@param {Array<Array<number>>} a1 - Array bidimensional base para cópia.
  *@param {Array<Array<number>>} a2 - Array bidimensional cujos elementos irão substituir os elementos de `a1` a partir da `posicaoInicial` na array retornada.
  *@returns {Array<Array<number>>} Um array bidimensional com mesmo tamanho de `a1` e com elementos de `a1` mas com elementos de `a2` a partir da `posicaoinicial`.
