@@ -1,0 +1,1 @@
+{"version":3,"file":"quadrado.js","sourceRoot":"","sources":["../src/quadrado.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,YAAY,CAAC;AAEnC,MAAM,OAAO,QAAS,SAAQ,KAAK;IAAnC;;QACI,mBAAc,GAAG;YACb;gBACI,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;gBACR,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;aACX;SACJ,CAAC;IACN,CAAC;CAAA"}
