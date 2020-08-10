@@ -77,14 +77,14 @@ export function copiarArray(
     }
 
     if (elementos === undefined) {
-		const tamanhoCopia = original.length - inicio;
+        const tamanhoCopia = original.length - inicio;
         const copia: Array<number> = Array(tamanhoCopia);
 
-		let i = 0;
+        let i = 0;
         while (inicio < original.length) {
             copia[i] = original[inicio];
             inicio += 1;
-			i += 1;
+            i += 1;
         }
 
         return copia;
@@ -101,11 +101,11 @@ export function copiarArray(
         );
     }
 
-	let i = 0;
+    let i = 0;
     while (inicio < limite) {
         copia[i] = original[inicio];
         inicio += 1;
-		i += 1;
+        i += 1;
     }
 
     return copia;

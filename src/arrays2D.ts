@@ -17,12 +17,12 @@ export function criarArray2D(
         throw new Error(`Argumento inválido: ${colunas}`);
     }
 
-    const array: Array<Array<number>> = [];
+    const array: Array<Array<number>> = Array(linhas);
 
     let ls = 0;
 
     while (ls < linhas) {
-        array.push([]);
+        array[ls] = Array(colunas);
 
         let cs = 0;
         while (cs < colunas) {
@@ -48,18 +48,20 @@ export function combinar2D(
     fn: (x: number, y: number) => number
 ): Array<Array<number>> {
     const tamanho = a1.length;
+	const largura = a1[0].length;
     if (a2.length !== tamanho) {
         throw new Error(
             `Arrays têm dimensões distintas: (${tamanho} linha(s), ${a2.length} linha(s))`
         );
     }
 
-    const resultado = [];
+    const resultado = Array(tamanho);
 
     let i = 0;
     while (i < tamanho) {
         try {
-            resultado.push(combinar(a1[i], a2[i], fn));
+			resultado[i] = Array(largura);
+            resultado[i] = combinar(a1[i], a2[i], fn);
         } catch (e) {
             if (a1[i].length !== a2[i].length) {
                 throw new Error(
@@ -131,14 +133,14 @@ export function copiarArray2D(
         );
     }
 
-    const matriz = [];
+    const matriz = Array(linhas);
     let i = 0;
     while (i < linhas) {
-        matriz.push([]);
+        matriz[i] = Array(colunas);
 
         let j = 0;
         while (j < colunas) {
-            matriz[i].push(original[i + linha][j + coluna]);
+            matriz[i][j] = original[i + linha][j + coluna];
             j += 1;
         }
 
@@ -191,11 +193,13 @@ export function sobreporArray2D(
         );
     }
 
-    const copia = [];
+	const comprimento = a1.length;
+	const largura = a1[0].length;
+    const copia = Array(comprimento);
 
     let i = 0;
     while (i < a1.length) {
-        copia.push([]);
+        copia[i] = Array(largura);
 
         let j = 0;
         while (j < a1[i].length) {
@@ -229,10 +233,12 @@ export function mapear2D(
     a: Array<Array<number>>,
     fn: (x: number) => number
 ): Array<Array<number>> {
-    const resultado = [];
+	const comprimento = a.length;
+    const resultado = Array(comprimento);
     let i = 0;
     while (i < a.length) {
-        resultado.push(mapear(a[i], fn));
+		resultado[i] = Array(a[i].length);
+        resultado[i] = mapear(a[i], fn);
         i += 1;
     }
     return resultado;
@@ -256,16 +262,20 @@ export function reduzir2D(
         );
     }
 
-    let parcial = [];
+    let parcial = Array(comprimento);
 
     if (largura > 1) {
         let i = 0;
         while (i < a.length) {
-            parcial.push(reduzir(a[i], fn));
+            parcial[i] = reduzir(a[i], fn);
             i += 1;
         }
     } else {
-        parcial = a.map((ar) => ar[0]);
+		let i = 0;
+		while (i < a.length) {
+			parcial[i] = a[i][0];
+			i += 1;
+		}
     }
 
     if (parcial.length < 2) {
