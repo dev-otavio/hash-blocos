@@ -4,11 +4,13 @@ import { Barra } from "./barra";
 import { T } from "./t";
 import { L } from "./l";
 import { S } from "./s";
+import { reduzir } from "./arrays";
 import { criarArray2D
 		 , sobreporArray2D
 		 , copiarArray2D
 		 , reduzir2D
 		 , combinar2D
+		 , remover2D
 	   } from "./arrays2D";
 
 
@@ -131,21 +133,39 @@ export class Grade {
 	}
 
 	sobreporBloco() {
-		const copia
-			= copiarArray2D(this.matriz
-							, { ...this.posicaoBloco
-								, linhas: this.comprimentoBloco
-								, colunas: this.larguraBloco });
+		if (this.posicaoBloco) {
+			const copia
+				= copiarArray2D(this.matriz
+								, { ...this.posicaoBloco
+									, linhas: this.comprimentoBloco
+									, colunas: this.larguraBloco });
 
-		const combinados
-			= combinar2D(copia, this.bloco.representacao, (x, y) => x | y);
+			const combinados
+				= combinar2D(copia, this.bloco.representacao, (x, y) => x | y);
 
-		return sobreporArray2D(this.matriz, combinados, this.posicaoBloco);
+			return sobreporArray2D(this.matriz, combinados, this.posicaoBloco);
+		} else {
+			return this.matriz;
+		}
 	}
 
 	fixarBloco() {
 		this.matriz = this.sobreporBloco();
 		this.posicaoBloco = undefined;
+	}
+
+	removerLinhaCheia() {
+		let i = this.comprimento - 1;
+
+		while (i > 0) {
+			if (reduzir(this.matriz[i], (x, y) => x & y)) {
+				this.matriz = remover2D(this.matriz, i);
+				return true;
+			}
+			i -= 1;
+		}
+
+		return false;
 	}
 
 	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
