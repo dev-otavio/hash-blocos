@@ -374,6 +374,16 @@ test(testeReduzir2D, function () {
 	expect(reduzir2D(a1, r1)).toBe(-2);
 	expect(reduzir2D(a1, r2)).toBe(-1);
 	expect(reduzir2D(a1, r3)).toBe(0);
+
+	const a2 = [[-1],
+			    [-1],
+			    [-1],
+			    [-1]];
+
+	expect(reduzir2D(a2, r1)).toBe(-4);
+	expect(reduzir2D(a2, r2)).toBe(-1);
+	expect(reduzir2D(a2, r3)).toBe(-1);
+
 });
 
 const testeRemoverLinha

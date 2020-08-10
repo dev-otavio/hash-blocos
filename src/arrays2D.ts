@@ -222,10 +222,15 @@ export function reduzir2D(a: Array<Array<number>>, fn: (ac: number, c: number) =
 	}
 
 	let parcial = [];
-	let i = 0;
-	while (i < a.length) {
-		parcial.push(reduzir(a[i], fn));
-		i += 1;
+
+	if (largura > 1) {
+		let i = 0;
+		while (i < a.length) {
+			parcial.push(reduzir(a[i], fn));
+			i += 1;
+		}
+	} else {
+		parcial = a.map(ar => ar[0]);
 	}
 
 	if (parcial.length < 2) {
