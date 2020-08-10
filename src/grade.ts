@@ -3,7 +3,9 @@ import { Quadrado } from "./quadrado.js";
 import { Barra } from "./barra.js";
 import { T } from "./t.js";
 import { L } from "./l.js";
+import { LInvertido } from "./l-invertido.js";
 import { S } from "./s.js";
+import { SInvertido } from "./s-invertido.js";
 import { reduzir } from "./arrays.js";
 import {
     criarArray2D,
@@ -40,7 +42,7 @@ export class Grade {
     }
 
     proximoBloco() {
-        const blocos = [Quadrado, Barra, T, L, S];
+        const blocos = [Quadrado, Barra, T, L, LInvertido, S, SInvertido];
         const bloco = new blocos[Math.floor(Math.random() * blocos.length)]();
         const ultimaColunaPossivel =
             this.largura - bloco.representacao[0].length;
