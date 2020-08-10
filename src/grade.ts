@@ -79,6 +79,23 @@ export class Grade {
 		return false;
 	}
 
+	moverParaDireita() {
+		const limiteParaColuna = this.largura - this.larguraBloco
+		if (this.posicaoBloco.coluna < limiteParaColuna) {
+			const temEspacoDisponivel
+				= this.verificarDisponibilidadeEspaco(this.matriz
+													  , this.bloco.representacao
+													  , { ...this.posicaoBloco
+														  , coluna: this.posicaoBloco.coluna + 1 });
+			if (temEspacoDisponivel) {
+				this.posicaoBloco.coluna += 1;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	moverParaEsquerda() {
 		if (this.posicaoBloco.coluna > 0) {
 			const temEspacoDisponivel
@@ -88,7 +105,7 @@ export class Grade {
 														  , coluna: this.posicaoBloco.coluna - 1 });
 
 			if (temEspacoDisponivel) {
-				this.posicaoBloco.coluna -=1;
+				this.posicaoBloco.coluna -= 1;
 				return true;
 			}
 
