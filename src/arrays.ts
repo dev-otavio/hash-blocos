@@ -7,9 +7,9 @@ export function criarArray(n: number): Array<number> {
         throw new Error(`Argumento inválido: ${n}`);
     }
 
-    const array: Array<number> = [];
-    let i = 0;
+    const array: Array<number> = Array(n);
 
+    let i = 0;
     while (i < n) {
         array[i] = 0;
         i += 1;
@@ -36,7 +36,7 @@ export function combinar(
         );
     }
 
-    const resultado = [];
+    const resultado = Array(tamanho);
     let i = 0;
     while (i < tamanho) {
         resultado[i] = fn(a1[i], a2[i]);
@@ -77,18 +77,20 @@ export function copiarArray(
     }
 
     if (elementos === undefined) {
-        const copia: Array<number> = [];
-        const limite = original.length;
+		const tamanhoCopia = original.length - inicio;
+        const copia: Array<number> = Array(tamanhoCopia);
 
-        while (inicio < limite) {
-            copia.push(original[inicio]);
+		let i = 0;
+        while (inicio < original.length) {
+            copia[i] = original[inicio];
             inicio += 1;
+			i += 1;
         }
 
         return copia;
     }
 
-    const copia: Array<number> = [];
+    const copia: Array<number> = Array(elementos);
     const limite = elementos + inicio;
 
     if (limite > original.length) {
@@ -99,9 +101,11 @@ export function copiarArray(
         );
     }
 
+	let i = 0;
     while (inicio < limite) {
-        copia.push(original[inicio]);
+        copia[i] = original[inicio];
         inicio += 1;
+		i += 1;
     }
 
     return copia;
@@ -134,7 +138,7 @@ export function sobreporArray(
         );
     }
 
-    const copia = [];
+    const copia = Array(a1.length);
     let i = 0;
     let j = 0;
     while (i < a1.length) {
@@ -159,10 +163,10 @@ export function mapear(
     a: Array<number>,
     fn: (x: number) => number
 ): Array<number> {
-    const resultado = [];
+    const resultado = Array(a.length);
     let i = 0;
     while (i < a.length) {
-        resultado.push(fn(a[i]));
+        resultado[i] = fn(a[i]);
         i += 1;
     }
     return resultado;
