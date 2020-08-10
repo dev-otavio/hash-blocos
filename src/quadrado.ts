@@ -1,7 +1,10 @@
-import { Bloco } from './bloco';
-
+import { Bloco } from "./bloco";
 
 export class Quadrado extends Bloco {
-	representacoes = [[[-1, -1],
-					   [-1, -1]]];
+    representacoes = [
+        [
+            [-1, -1],
+            [-1, -1],
+        ],
+    ];
 }

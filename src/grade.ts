@@ -5,188 +5,193 @@ import { T } from "./t";
 import { L } from "./l";
 import { S } from "./s";
 import { reduzir } from "./arrays";
-import { criarArray2D
-		 , sobreporArray2D
-		 , copiarArray2D
-		 , reduzir2D
-		 , combinar2D
-		 , remover2D
-	   } from "./arrays2D";
-
+import {
+    criarArray2D,
+    sobreporArray2D,
+    copiarArray2D,
+    reduzir2D,
+    combinar2D,
+    remover2D,
+} from "./arrays2D";
 
 export class Grade {
+    matriz: Array<Array<number>>;
+    comprimento: number;
+    largura: number;
+    bloco: Bloco;
+    posicaoBloco?: { linha: number; coluna: number };
 
-	matriz: Array<Array<number>>;
-	comprimento: number;
-	largura: number;
-	bloco: Bloco;
-	posicaoBloco?: { linha: number, coluna: number };
+    constructor(comprimento = 14, largura = 10) {
+        this.comprimento = comprimento + 4;
+        this.largura = largura;
+        this.matriz = criarArray2D(this.comprimento, this.largura);
+    }
 
-	constructor(comprimento = 14, largura = 10) {
-		this.comprimento = comprimento + 4;
-		this.largura = largura;
-		this.matriz = criarArray2D(this.comprimento, this.largura);
-	}
+    get larguraBloco() {
+        return this.bloco.representacao[0].length;
+    }
 
-	get larguraBloco() {
-		return this.bloco.representacao[0].length;
-	}
+    get comprimentoBloco() {
+        return this.bloco.representacao.length;
+    }
 
-	get comprimentoBloco() {
-		return this.bloco.representacao.length;
-	}
+    get distribuicao() {
+        return this.sobreporBloco();
+    }
 
-	get distribuicao() {
-		return this.sobreporBloco();
-	}
+    proximoBloco() {
+        const blocos = [Quadrado, Barra, T, L, S];
+        const bloco = new blocos[Math.floor(Math.random() * blocos.length)]();
+        const ultimaColunaPossivel =
+            this.largura - bloco.representacao[0].length;
 
-	proximoBloco() {
-		const blocos = [ Quadrado, Barra, T, L, S ];
-		const bloco  = new blocos[Math.floor(Math.random() * blocos.length)]();
-		const ultimaColunaPossivel
-			= this.largura - bloco.representacao[0].length;
+        const posicao = this.posicaoBloco || {
+            linha: 0,
+            coluna: Math.floor(Math.random() * ultimaColunaPossivel),
+        };
 
-		const posicao
-			= this.posicaoBloco || { linha: 0
-									 , coluna: Math.floor(Math.random() * ultimaColunaPossivel) };
+        const temEspaco = this.verificarDisponibilidadeEspaco(
+            this.matriz,
+            bloco.representacao,
+            posicao
+        );
 
-		const temEspaco
-			= this.verificarDisponibilidadeEspaco(this.matriz
-												  , bloco.representacao
-												  , posicao);
+        if (temEspaco) {
+            this.bloco = bloco;
+            this.posicaoBloco = posicao;
+            return true;
+        }
 
-		if (temEspaco) {
-			this.bloco = bloco;
-			this.posicaoBloco = posicao;
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    rotacionar() {
+        const representacaoSeguinte = this.bloco.representacoes[1];
 
-	rotacionar() {
-		const representacaoSeguinte
-			= this.bloco.representacoes[1];
+        const temEspacoDisponivel = this.verificarDisponibilidadeEspaco(
+            this.matriz,
+            representacaoSeguinte,
+            this.posicaoBloco
+        );
 
-		const temEspacoDisponivel
-			= this.verificarDisponibilidadeEspaco(this.matriz
-												  , representacaoSeguinte
-												  , this.posicaoBloco);
+        if (temEspacoDisponivel) {
+            this.bloco.rotacionar();
+            return true;
+        }
 
-		if (temEspacoDisponivel) {
-			this.bloco.rotacionar();
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    moverParaDireita() {
+        const limiteParaColuna = this.largura - this.larguraBloco;
+        if (this.posicaoBloco.coluna < limiteParaColuna) {
+            const temEspacoDisponivel = this.verificarDisponibilidadeEspaco(
+                this.matriz,
+                this.bloco.representacao,
+                { ...this.posicaoBloco, coluna: this.posicaoBloco.coluna + 1 }
+            );
+            if (temEspacoDisponivel) {
+                this.posicaoBloco.coluna += 1;
+                return true;
+            }
+        }
 
-	moverParaDireita() {
-		const limiteParaColuna = this.largura - this.larguraBloco
-		if (this.posicaoBloco.coluna < limiteParaColuna) {
-			const temEspacoDisponivel
-				= this.verificarDisponibilidadeEspaco(this.matriz
-													  , this.bloco.representacao
-													  , { ...this.posicaoBloco
-														  , coluna: this.posicaoBloco.coluna + 1 });
-			if (temEspacoDisponivel) {
-				this.posicaoBloco.coluna += 1;
-				return true;
-			}
-		}
+        return false;
+    }
 
-		return false;
-	}
+    moverParaEsquerda() {
+        if (this.posicaoBloco.coluna > 0) {
+            const temEspacoDisponivel = this.verificarDisponibilidadeEspaco(
+                this.matriz,
+                this.bloco.representacao,
+                { ...this.posicaoBloco, coluna: this.posicaoBloco.coluna - 1 }
+            );
 
-	moverParaEsquerda() {
-		if (this.posicaoBloco.coluna > 0) {
-			const temEspacoDisponivel
-				= this.verificarDisponibilidadeEspaco(this.matriz
-													  , this.bloco.representacao
-													  , { ...this.posicaoBloco
-														  , coluna: this.posicaoBloco.coluna - 1 });
+            if (temEspacoDisponivel) {
+                this.posicaoBloco.coluna -= 1;
+                return true;
+            }
+        }
 
-			if (temEspacoDisponivel) {
-				this.posicaoBloco.coluna -= 1;
-				return true;
-			}
+        return false;
+    }
 
-		}
+    moverParaBaixo() {
+        const temEspacoDisponivel = this.verificarDisponibilidadeEspaco(
+            this.matriz,
+            this.bloco.representacao,
+            { ...this.posicaoBloco, linha: this.posicaoBloco.linha + 1 }
+        );
 
-		return false;
-	}
+        if (temEspacoDisponivel) {
+            this.posicaoBloco.linha += 1;
+            return true;
+        }
 
-	moverParaBaixo() {
-		const temEspacoDisponivel
-			= this.verificarDisponibilidadeEspaco(this.matriz
-												  , this.bloco.representacao
-												  , { ...this.posicaoBloco
-													  , linha: this.posicaoBloco.linha + 1 });
+        this.fixarBloco();
+        return false;
+    }
 
-		if (temEspacoDisponivel) {
-			this.posicaoBloco.linha += 1;
-			return true;
-		}
+    sobreporBloco() {
+        if (this.posicaoBloco) {
+            const copia = copiarArray2D(this.matriz, {
+                ...this.posicaoBloco,
+                linhas: this.comprimentoBloco,
+                colunas: this.larguraBloco,
+            });
 
-		this.fixarBloco();
-		return false;
-	}
+            const combinados = combinar2D(
+                copia,
+                this.bloco.representacao,
+                (x, y) => x | y
+            );
 
-	sobreporBloco() {
-		if (this.posicaoBloco) {
-			const copia
-				= copiarArray2D(this.matriz
-								, { ...this.posicaoBloco
-									, linhas: this.comprimentoBloco
-									, colunas: this.larguraBloco });
+            return sobreporArray2D(this.matriz, combinados, this.posicaoBloco);
+        } else {
+            return this.matriz;
+        }
+    }
 
-			const combinados
-				= combinar2D(copia, this.bloco.representacao, (x, y) => x | y);
+    fixarBloco() {
+        this.matriz = this.sobreporBloco();
+        this.posicaoBloco = undefined;
+    }
 
-			return sobreporArray2D(this.matriz, combinados, this.posicaoBloco);
-		} else {
-			return this.matriz;
-		}
-	}
+    removerLinhaCheia() {
+        let i = this.comprimento - 1;
 
-	fixarBloco() {
-		this.matriz = this.sobreporBloco();
-		this.posicaoBloco = undefined;
-	}
+        while (i > 0) {
+            if (reduzir(this.matriz[i], (x, y) => x & y)) {
+                this.matriz = remover2D(this.matriz, i);
+                return true;
+            }
+            i -= 1;
+        }
 
-	removerLinhaCheia() {
-		let i = this.comprimento - 1;
+        return false;
+    }
 
-		while (i > 0) {
-			if (reduzir(this.matriz[i], (x, y) => x & y)) {
-				this.matriz = remover2D(this.matriz, i);
-				return true;
-			}
-			i -= 1;
-		}
+    verificarDisponibilidadeEspaco(
+        matriz: Array<Array<number>>,
+        representacao: Array<Array<number>>,
+        posicao: { linha: number; coluna: number }
+    ) {
+        try {
+            const copia = copiarArray2D(matriz, {
+                linhas: representacao.length,
+                colunas: representacao[0].length,
+                ...posicao,
+            });
 
-		return false;
-	}
+            const combinados = combinar2D(
+                copia,
+                representacao,
+                (x, y) => ~(x & y)
+            );
 
-	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
-								   , representacao: Array<Array<number>>
-								   , posicao: { linha: number
-									 		   , coluna: number }) {
-
-		try {
-			const copia = copiarArray2D(matriz, { linhas: representacao.length
-												  , colunas: representacao[0].length
-												  , ...posicao });
-
-			const combinados = combinar2D(copia
-										  , representacao
-										  , (x, y) => ~(x & y));
-
-			return !!reduzir2D(combinados
-							   , (x, y) => x & y);
-		} catch (e) {
-			return false;
-		}
-	}
-
+            return !!reduzir2D(combinados, (x, y) => x & y);
+        } catch (e) {
+            return false;
+        }
+    }
 }
