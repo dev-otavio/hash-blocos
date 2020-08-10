@@ -69,7 +69,7 @@ test("copiarArray2D deve lançar exceção para valor negativo para qualquer pro
     const coluna = 1;
     const linhas = 1;
     const colunas = 1;
-
+	{
     let e1: Error;
     try {
         copiarArray2D(original, { linha: -linha, coluna, linhas, colunas });
