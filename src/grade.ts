@@ -1,10 +1,10 @@
-import { Bloco } from "./bloco";
-import { Quadrado } from "./quadrado";
-import { Barra } from "./barra";
-import { T } from "./t";
-import { L } from "./l";
-import { S } from "./s";
-import { reduzir } from "./arrays";
+import { Bloco } from "./bloco.js";
+import { Quadrado } from "./quadrado.js";
+import { Barra } from "./barra.js";
+import { T } from "./t.js";
+import { L } from "./l.js";
+import { S } from "./s.js";
+import { reduzir } from "./arrays.js";
 import {
     criarArray2D,
     sobreporArray2D,
@@ -12,7 +12,7 @@ import {
     reduzir2D,
     combinar2D,
     remover2D,
-} from "./arrays2D";
+} from "./arrays2D.js";
 
 export class Grade {
     matriz: Array<Array<number>>;

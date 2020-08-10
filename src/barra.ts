@@ -1,4 +1,4 @@
-import { Bloco } from "./bloco";
+import { Bloco } from "./bloco.js";
 
 export class Barra extends Bloco {
     representacoes = [

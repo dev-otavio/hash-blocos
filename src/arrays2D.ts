@@ -1,4 +1,4 @@
-import { combinar, mapear, reduzir } from "./arrays";
+import { combinar, mapear, reduzir } from "./arrays.js";
 
 /**
  *@param {number} linhas - Número de linhas desejadas para o array.
