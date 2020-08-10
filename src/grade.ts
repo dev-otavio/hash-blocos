@@ -79,6 +79,24 @@ export class Grade {
 		return false;
 	}
 
+	moverParaEsquerda() {
+		if (this.posicaoBloco.coluna > 0) {
+			const temEspacoDisponivel
+				= this.verificarDisponibilidadeEspaco(this.matriz
+													  , this.bloco.representacao
+													  , { ...this.posicaoBloco
+														  , coluna: this.posicaoBloco.coluna - 1 });
+
+			if (temEspacoDisponivel) {
+				this.posicaoBloco.coluna -=1;
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
 	moverParaBaixo() {
 		const temEspacoDisponivel
 			= this.verificarDisponibilidadeEspaco(this.matriz
@@ -92,8 +110,6 @@ export class Grade {
 		}
 
 		this.fixarBloco();
-		this.posicaoBloco = undefined;
-		this.proximoBloco();
 		return false;
 	}
 
@@ -112,6 +128,7 @@ export class Grade {
 
 	fixarBloco() {
 		this.matriz = this.sobreporBloco();
+		this.posicaoBloco = undefined;
 	}
 
 	verificarDisponibilidadeEspaco(matriz: Array<Array<number>>
@@ -134,4 +151,5 @@ export class Grade {
 			return false;
 		}
 	}
+
 }
