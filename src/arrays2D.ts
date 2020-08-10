@@ -48,7 +48,7 @@ export function combinar2D(
     fn: (x: number, y: number) => number
 ): Array<Array<number>> {
     const tamanho = a1.length;
-	const largura = a1[0].length;
+    const largura = a1[0].length;
     if (a2.length !== tamanho) {
         throw new Error(
             `Arrays têm dimensões distintas: (${tamanho} linha(s), ${a2.length} linha(s))`
@@ -60,7 +60,7 @@ export function combinar2D(
     let i = 0;
     while (i < tamanho) {
         try {
-			resultado[i] = Array(largura);
+            resultado[i] = Array(largura);
             resultado[i] = combinar(a1[i], a2[i], fn);
         } catch (e) {
             if (a1[i].length !== a2[i].length) {
@@ -193,8 +193,8 @@ export function sobreporArray2D(
         );
     }
 
-	const comprimento = a1.length;
-	const largura = a1[0].length;
+    const comprimento = a1.length;
+    const largura = a1[0].length;
     const copia = Array(comprimento);
 
     let i = 0;
@@ -233,11 +233,11 @@ export function mapear2D(
     a: Array<Array<number>>,
     fn: (x: number) => number
 ): Array<Array<number>> {
-	const comprimento = a.length;
+    const comprimento = a.length;
     const resultado = Array(comprimento);
     let i = 0;
     while (i < a.length) {
-		resultado[i] = Array(a[i].length);
+        resultado[i] = Array(a[i].length);
         resultado[i] = mapear(a[i], fn);
         i += 1;
     }
@@ -271,11 +271,11 @@ export function reduzir2D(
             i += 1;
         }
     } else {
-		let i = 0;
-		while (i < a.length) {
-			parcial[i] = a[i][0];
-			i += 1;
-		}
+        let i = 0;
+        while (i < a.length) {
+            parcial[i] = a[i][0];
+            i += 1;
+        }
     }
 
     if (parcial.length < 2) {
