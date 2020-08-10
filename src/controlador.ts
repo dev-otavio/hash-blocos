@@ -28,8 +28,8 @@ export class Controlador {
 		console.clear();
         console.log(
             this.grade.distribuicao
-                .map((l) => l.map((n) => (n ? "#" : ".")).join(""))
-                .join("\n")
+                .map((l) => '|' + (l.map((n) => (n ? '#' : ' ')).join('')) + '|')
+                .join('\n')
         );
 		console.log(`PONTOS: ${this.pontos}`);
     }
@@ -57,6 +57,7 @@ export class Controlador {
 
     moverParaBaixo() {
         const moveu = this.grade.moverParaBaixo();
+
         if (!moveu) {
             let linhaRemovida = this.grade.removerLinhaCheia();
 
@@ -72,7 +73,9 @@ export class Controlador {
                 linhaRemovida = this.grade.removerLinhaCheia();
             }
 
-            this.proximoBloco();
+            if (!this.proximoBloco()) {
+				return false;
+			};
         }
 
         this.mostrar();
@@ -83,9 +86,10 @@ export class Controlador {
 
         if (!novoBloco) {
             this.terminar();
+			return false;
         }
 
-        this.mostrar();
+		return true;
     }
 
     terminar(msg?: string) {

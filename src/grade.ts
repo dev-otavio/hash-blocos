@@ -24,7 +24,7 @@ export class Grade {
     posicaoBloco?: { linha: number; coluna: number };
 
     constructor(comprimento = 14, largura = 10) {
-        this.comprimento = comprimento + 4;
+        this.comprimento = comprimento;
         this.largura = largura;
         this.matriz = criarArray2D(this.comprimento, this.largura);
     }
@@ -108,7 +108,6 @@ export class Grade {
                 this.bloco.representacao,
                 { ...this.posicaoBloco, coluna: this.posicaoBloco.coluna - 1 }
             );
-
             if (temEspacoDisponivel) {
                 this.posicaoBloco.coluna -= 1;
                 return true;
